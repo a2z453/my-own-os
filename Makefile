@@ -2,6 +2,8 @@ ARCH := x86_64
 CROSS_COMPILE ?= x86_64-elf-
 CC ?= $(CROSS_COMPILE)gcc
 LD ?= $(CROSS_COMPILE)ld
+CC := $(CROSS_COMPILE)gcc
+LD := $(CROSS_COMPILE)ld
 NASM := nasm
 XORRISO := xorriso
 
@@ -20,9 +22,9 @@ OBJS := \
 	build/serial.o \
 	build/panic.o
 
-.PHONY: all iso clean limine toolchain-check
+.PHONY: all iso clean limine
 
-all: toolchain-check $(KERNEL)
+all: $(KERNEL)
 
 build:
 	mkdir -p build
@@ -43,6 +45,10 @@ $(KERNEL): toolchain-check $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $(OBJS)
 
 limine: toolchain-check
+$(KERNEL): $(OBJS)
+	$(LD) $(LDFLAGS) -o $@ $(OBJS)
+
+limine:
 	@if [ ! -d $(LIMINE_DIR) ]; then \
 		git clone https://github.com/limine-bootloader/limine.git $(LIMINE_DIR); \
 	fi
