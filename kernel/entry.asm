@@ -103,7 +103,7 @@ align 8
 gdt64:
     dq 0x0000000000000000       ; null
     dq 0x00AF9A000000FFFF       ; 0x08: 64-bit code segment
-    dq 0x00AF92000000FFFF       ; 0x10: data segment
+    dq 0x00CF92000000FFFF       ; 0x10: data segment (L=0)
 gdt64_end:
 
 gdt64_ptr:
@@ -147,4 +147,3 @@ align 16
 stack64_bottom:
     resb 16384                  ; 16 KiB
 stack64_top:
-
